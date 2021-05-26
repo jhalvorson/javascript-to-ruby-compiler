@@ -19,9 +19,4 @@ function compiler(input) {
   return generatedCode;
 }
 
-
-const input = `function myFunction(number1) {
-  return number1
-}`;
-
-console.log(JSON.stringify(compiler(input)));
+module.exports = compiler;
