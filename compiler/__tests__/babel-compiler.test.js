@@ -61,7 +61,7 @@ describe("JS Classes return Ruby Classes", () => {
     `
 
     const output = `
-      Class Calculator {
+      Class Calculator
         def initialize(arg1, arg2)
           @arg1 = arg1
           @arg2 = arg2
@@ -70,7 +70,7 @@ describe("JS Classes return Ruby Classes", () => {
         def add
           @arg1 + @arg2
         end
-      }
+      end
     `
 
     expect(compiler(input)).toContain(output);

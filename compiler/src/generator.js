@@ -11,9 +11,7 @@
  * @param {[]} body 
  */
 function classConstructorBodyGenerator(body) {
-  return body.map(item => `
-            @${item.expression.left.property.name} ${item.expression.operator} ${item.expression.right.name}
-  `).join('\n')
+  return body.map(item => "    @" + item.expression.left.property.name + " " + item.expression.operator + " " + item.expression.right.name).join('\n')
 }
 
 function generator(node) {
@@ -25,35 +23,20 @@ function generator(node) {
         .join('\n');
 
     case 'ClassDeclaration':
-      return `
-      Class ${node.id.name}
-        ${node.body.body.map(generator)}
-      end
-      `;
+      return "Class " + node.id.name + "\n" + node.body.body.map(generator) + "\n" + "end";
 
     case 'ClassMethod':
       const { key, params, body } = node;
       if (key.name === 'constructor') {
-        return `
-          initialize(${params.map(generator).join(', ')})
-            ${classConstructorBodyGenerator(body.body)}
-          end
-        `
+        return "  initialize(" + params.map(generator).join(', ') + ")" + "\n" + classConstructorBodyGenerator(body.body) + "\n" + "  end\n\n"
       } else {
-        const method = `def ${node.key.name}`;
+        const tab = "  ";
+        const method =  tab + "def " + node.key.name;
         if (node.params.length) {
-          return `
-          ${method} | ${node.params.map(generator).join(', ')} |
-            ${node.body.body.map(generator)}
-          end
-          `
+          return method + " | "  + node.params.map(generator).join(', ') + " | " + "\n" + tab + tab + node.body.body.map(generator) + "\n" + tab + "end\n\n"
         }
   
-        return `
-          ${method}
-            ${node.body.body.map(generator)}
-          end
-        `;
+        return method + "\n" + "   " + node.body.body.map(generator) + "\n" + "end"
       }
       
 
@@ -61,10 +44,10 @@ function generator(node) {
       const method = `def ${node.id.name}`;
       
       if (node.params.length) {
-        return method + " | " + node.params.map(generator).join(', ') + " |\n" + " " + node.body.body.map(generator) + "\n" + "end"
+        return method + " | " + node.params.map(generator).join(', ') + " |\n" + "  " + node.body.body.map(generator) + "\n" + "end\n\n"
       }
 
-      return method + "\n" + node.body.body.map(generator) + "\n" + "end";
+      return method + "\n" + "  " + node.body.body.map(generator) + "\n" + "end\n\n";
 
     case 'BinaryExpression':
       return `${generator(node.left)} ${node.operator} ${generator(node.right)}`;

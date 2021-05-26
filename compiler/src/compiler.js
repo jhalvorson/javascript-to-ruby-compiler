@@ -19,4 +19,20 @@ function compiler(input) {
   return generatedCode;
 }
 
+
+const test = `
+class Calculator {
+  constructor(arg1, arg2) {
+    this.arg1 = arg1
+    this.arg2 = arg2
+  }
+
+  add() {
+    return this.arg1 + this.arg2
+  }
+}
+`
+
+console.log(compiler(test));
+
 module.exports = compiler;
