@@ -1,7 +1,7 @@
 const tokenizer = require("../src/tokenizer");
 
 test('it returns a valid array of tokens', () => {
-  const input = `function(number1) {
+  const input = `function myFunction(number1) {
     return number1
   }`;
 
@@ -9,6 +9,10 @@ test('it returns a valid array of tokens', () => {
     {
       type: 'name',
       value: 'function'
+    },
+    {
+      type: 'name',
+      value: 'myFunction'
     },
     {
       type: 'paren',

@@ -1,3 +1,8 @@
-# javascript-to-ruby-compiler
+# JavaScript to Ruby Compiler.
 
-Thanks to https://github.com/jamiebuilds/the-super-tiny-compiler for all the inspiration.
+Don't use this.
+
+I only managed to coble this together thanks to the following resources:
+
+- https://github.com/jamiebuilds/the-super-tiny-compiler
+- https://astexplorer.net/
