@@ -1,5 +1,12 @@
 # JavaScript to Ruby Compiler
 
+### Todo:
+
+- [ ] String interpolation
+- [ ] Array methods
+- [ ] Objects
+- [ ] Iteration
+
 Don't use this. Pls.
 
 I only managed to coble this together thanks to the following resources:
