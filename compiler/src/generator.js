@@ -23,31 +23,31 @@ function generator(node) {
         .join('\n');
 
     case 'ClassDeclaration':
-      return "Class " + node.id.name + "\n" + node.body.body.map(generator) + "\n" + "end";
+      return "Class " + node.id.name + "\n" + node.body.body.map(generator).join('\n'); + "\n" + "end";
 
     case 'ClassMethod':
       const { key, params, body } = node;
       if (key.name === 'constructor') {
-        return "  initialize(" + params.map(generator).join(', ') + ")" + "\n" + classConstructorBodyGenerator(body.body) + "\n" + "  end\n\n"
+        return "  initialize(" + params.map(generator).join(', ') + ")" + "\n" + classConstructorBodyGenerator(body.body) + "\n" + "  end\n"
       } else {
         const tab = "  ";
-        const method =  tab + "def " + node.key.name;
+        const method = tab + "def " + node.key.name;
         if (node.params.length) {
-          return method + " | "  + node.params.map(generator).join(', ') + " | " + "\n" + tab + tab + node.body.body.map(generator) + "\n" + tab + "end\n\n"
+          return method + " | "  + node.params.map(generator).join(', ') + " | " + "\n" + tab + tab + node.body.body.map(generator).join('\n') + "\n" + "end\n\n"
         }
   
-        return method + "\n" + "   " + node.body.body.map(generator) + "\n" + "end"
+        return method + "\n" + "   " + node.body.body.map(generator) + "\n" + tab  + "end\n"
       }
       
 
     case 'FunctionDeclaration':
-      const method = `def ${node.id.name}`;
+      const method = "def " + node.id.name;
       
       if (node.params.length) {
-        return method + " | " + node.params.map(generator).join(', ') + " |\n" + "  " + node.body.body.map(generator) + "\n" + "end\n\n"
+        return method + " | " + node.params.map(generator).join(', ') + " |\n" + "  " + node.body.body.map(generator).join('\n') + "\n" + "end\n\n"
       }
 
-      return method + "\n" + "  " + node.body.body.map(generator) + "\n" + "end\n\n";
+      return method + "\n" + "  " + node.body.body.map(generator).join('\n') + "\n" + "end\n\n";
 
     case 'BinaryExpression':
       return `${generator(node.left)} ${node.operator} ${generator(node.right)}`;

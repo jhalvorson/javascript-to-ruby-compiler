@@ -6,8 +6,6 @@ const generator = require('./generator');
 function compiler(input) {
   const ast = parse(input);
 
-  console.log({ ast: JSON.stringify(ast) })
-
   traverse(ast, {
     enter(path) {
       if (path.node.type === 'FunctionDeclaration') {
