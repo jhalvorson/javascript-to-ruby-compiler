@@ -2,6 +2,8 @@
  * This is the file that "generates" the Ruby code from JS. 
  * 
  * It loops through the AST and transforms the code.
+ * 
+ * NOTE: try not to use backticks as it messes with the formatting
 */
 
 /**
@@ -57,19 +59,12 @@ function generator(node) {
 
     case 'FunctionDeclaration':
       const method = `def ${node.id.name}`;
+      
       if (node.params.length) {
-        return `
-        ${method} | ${node.params.map(generator).join(', ')} |
-          ${node.body.body.map(generator)}
-        end
-        `
+        return method + " | " + node.params.map(generator).join(', ') + " |\n" + " " + node.body.body.map(generator) + "\n" + "end"
       }
 
-      return `
-      ${method}
-        ${node.body.body.map(generator)}
-      end
-      `;
+      return method + "\n" + node.body.body.map(generator) + "\n" + "end";
 
     case 'BinaryExpression':
       return `${generator(node.left)} ${node.operator} ${generator(node.right)}`;
