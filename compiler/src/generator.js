@@ -73,6 +73,12 @@ function generator(node) {
     case 'StringLiteral':
       return '"' + node.value + '"';
 
+    case 'VariableDeclaration':
+      return node.declarations.map(generator)
+
+    case 'VariableDeclarator':
+      return node.id.name + " = " + ""
+
     default:
       throw new TypeError(node.type);
   }
