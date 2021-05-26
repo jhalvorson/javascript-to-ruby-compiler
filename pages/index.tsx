@@ -13,7 +13,7 @@ export default function Home() {
   const handleCompilation = async () => {
     // const rubyCode = compiler(code);
 
-    await fetch("http://127.0.0.1:3000/api/compile", {
+    await fetch(`${process.env.NEXT_PUBLIC_URL}/api/compile`, {
       method: "POST",
       body: JSON.stringify({
         code,
