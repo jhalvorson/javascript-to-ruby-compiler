@@ -1,8 +1,7 @@
 const {parse} = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const {toSnakeCase} = require('./utils');
-
-function generator() {}
+const generator = require('./generator');
 
 function compiler(input) {
   const ast = parse(input);
@@ -15,9 +14,9 @@ function compiler(input) {
     },
   });
 
-  generator();
+  const generatedCode = generator(ast.program);
 
-  return ast;
+  return generatedCode;
 }
 
 
