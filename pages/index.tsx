@@ -8,7 +8,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [code, setCode] = useState(`function add(a, b) {\n  return a + b;\n}`);
-  const [ruby, setRuby] = useState(`def method | a, b | \n a + b \nend`);
+  const [ruby, setRuby] = useState(`def add | a, b | \n a + b \nend`);
 
   const handleCompilation = async () => {
     // const rubyCode = compiler(code);
