@@ -21,9 +21,4 @@ function compiler(input) {
   return generatedCode;
 }
 
-
-const test = "const test = `${one} ${one} two three`"
-
-console.log(compiler(test));
-
 module.exports = compiler;

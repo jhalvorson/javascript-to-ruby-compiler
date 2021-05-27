@@ -6,6 +6,10 @@
  * NOTE: try not to use backticks as it messes with the formatting
 */
 
+const { toSnakeCase } = require("./utils");
+
+const KEY_VAL_SEPARATOR = ": ";
+
 /**
  * Step one, we'll make this niave - they wll just assign at the first level
  * @param {[]} body 
@@ -39,7 +43,6 @@ function generator(node) {
         return method + "\n" + "   " + node.body.body.map(generator) + "\n" + tab  + "end\n"
       }
       
-
     case 'FunctionDeclaration':
       const method = "def " + node.id.name;
       
@@ -84,6 +87,17 @@ function generator(node) {
 
     case 'TemplateElement':
       return node.value.raw
+
+    case 'ArrayExpression':
+      return "[ " + node.elements.map(generator).join(', ') + " ]\n\n"
+
+    case 'ObjectExpression':
+      // If there are spaces in the key then use strings, else use symbols
+      return "{\n" + node.properties.map(generator).join(',\n') + "\n}";
+
+    case 'ObjectProperty':
+      const formattedKey = /\s/g.test(node.key.value) ? '"' + node.key.value + '"' :  ":" + node.key.name
+      return " " + formattedKey + KEY_VAL_SEPARATOR + generator(node.value)
 
     default:
       throw new TypeError(node.type);
