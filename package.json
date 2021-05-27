@@ -11,6 +11,7 @@
     "@babel/parser": "^7.14.3",
     "@babel/traverse": "^7.14.2",
     "@prettier/plugin-ruby": "^1.5.5",
+    "@reach/accordion": "^0.15.1",
     "@zeit/next-css": "^1.0.1",
     "monaco-editor": "^0.24.0",
     "monaco-editor-webpack-plugin": "^3.1.0",

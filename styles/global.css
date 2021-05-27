@@ -113,6 +113,11 @@ body {
   min-height: 350px;
 }
 
+.editor-example {
+  min-height: 0;
+  margin: 20px 0;
+}
+
 .editor:focus-within {
   border: 3px solid var(--editor-border-focus);
 }
@@ -153,6 +158,22 @@ p {
 .button:hover {
   background-color: #248cdc;
   cursor: pointer;
+}
+
+[data-reach-accordion-item] {
+  margin-bottom: 20px;
+}
+
+[data-reach-accordion-button] {
+  border: 0;
+  background: var(--editor-border);
+  flex: 1;
+  width: 100%;
+  font-size: 1rem;
+  border-radius: 4px;
+  padding: 20px;
+  color: #fff;
+  margin-bottom: 10px;
 }
 
 /* PrismJS 1.14.0

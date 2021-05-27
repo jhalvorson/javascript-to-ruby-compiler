@@ -4,6 +4,7 @@ import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-ruby";
 import { useState } from "react";
+import Examples from "../components/examples/examples";
 // import compiler from "../compiler/src/compiler";
 
 export default function Home() {
@@ -72,14 +73,7 @@ export default function Home() {
         </button>
       </div>
 
-      <p style={{ marginTop: 80 }}>Supported methods</p>
-      <ul>
-        <li>Functions</li>
-        <li>Classes</li>
-        <li>Arrays</li>
-        <li>Objects</li>
-        <li>Array.map</li>
-      </ul>
+      <Examples />
 
       <br />
       <p>Why?</p>
