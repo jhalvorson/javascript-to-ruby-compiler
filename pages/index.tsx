@@ -39,7 +39,7 @@ export default function Home() {
           JavaScript to Ruby Compiler
         </h1>
         <p style={{ marginBottom: 15 }}>
-          A simplistic and niave compiler to convert basic JavaScript to Ruby.
+          A simplistic and naive compiler to convert basic JavaScript to Ruby.
           Built on top of Babel.
         </p>
       </div>
