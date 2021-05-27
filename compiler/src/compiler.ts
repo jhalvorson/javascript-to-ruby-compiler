@@ -28,8 +28,6 @@ function compiler(input) {
 
           // Convert available methods when in FunctionExpressions
           if (args.type === 'ArrowFunctionExpression') {
-            console.log('doing stuff!!')
-            console.log(!!methods.hasOwnProperty(args.body?.callee?.name));
             // @ts-ignore
             if (!!methods.hasOwnProperty(args.body?.callee?.name)) {
               // @ts-ignore
