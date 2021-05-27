@@ -1,3 +1,11 @@
+:root {
+  --editor-bg: rgb(27, 31, 34);
+  --editor-border: #2e353a;
+  --editor-border-focus: #58646d;
+
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
 body {
   background-color: rgb(24, 27, 30);
   margin: 0;
@@ -40,6 +48,111 @@ ul {
 img {
   max-width: 100%;
   height: auto;
+}
+
+/******
+Fonts
+*******/
+
+body {
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.text-sm {
+  font-size: 0.9rem;
+}
+
+.text-md {
+  font-size: 1rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.hero {
+  max-width: 600px;
+  margin: 40px 0 100px 0;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 600px) {
+  .flex {
+    flex-direction: row;
+  }
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.mb-sm {
+  margin-bottom: 8px;
+}
+
+.editor {
+  background-color: var(--editor-bg);
+  font-family: var(--font-mono);
+  color: #fff;
+  flex: 1;
+  border-radius: 8px;
+  border: 3px solid var(--editor-border);
+  transition: 0.2s;
+  min-height: 350px;
+}
+
+.editor:focus-within {
+  border: 3px solid var(--editor-border-focus);
+}
+
+.editor-first {
+  margin-bottom: 20px;
+}
+
+@media (min-width: 600px) {
+  .editor-first {
+    margin-right: 20px;
+    margin-bottom: 0;
+  }
+}
+
+.editor textarea:focus {
+  outline: none;
+}
+
+p {
+  line-height: 1.4;
+}
+
+.button {
+  margin: 40px auto;
+  text-align: center;
+  min-width: 150px;
+  background: #c6d7e4;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: 0;
+  box-shadow: 0;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  transition: 0.2s;
+}
+
+.button:hover {
+  background-color: #248cdc;
+  cursor: pointer;
 }
 
 /* PrismJS 1.14.0

@@ -25,10 +25,8 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: 40, maxWidth: 1200, margin: "0 auto" }}>
-      <div
-        style={{ textAlign: "center", maxWidth: 600, margin: "0 auto 40px" }}
-      >
+    <div className="container">
+      <div className="hero">
         <h1
           style={{
             color: "#fff",
@@ -37,21 +35,16 @@ export default function Home() {
             marginBottom: 30,
           }}
         >
-          JavaScript to Ruby
+          JavaScript to Ruby Compiler
         </h1>
         <p style={{ marginBottom: 15 }}>
           A simplistic and niave compiler to convert basic JavaScript to Ruby.
           Built on top of Babel.
         </p>
-        <p>By Jamie Halvorson</p>
       </div>
-      <div
-        style={{
-          backgroundColor: "rgb(27,31,34)",
-          borderRadius: 14,
-        }}
-      >
-        <div style={{ display: "flex" }}>
+      <div className="flex">
+        <div className="flex-1">
+          <p className="mono text-sm flex-1 mb-sm">JavaScript</p>
           <Editor
             value={code}
             onValueChange={(code) => setCode(code)}
@@ -59,33 +52,43 @@ export default function Home() {
               highlight(code, languages.javascript, "javascript")
             }
             padding={15}
-            style={{
-              fontFamily: '"Fira code", "Fira Mono", monospace',
-              fontSize: 16,
-              flex: 1,
-              minHeight: 300,
-              borderRight: "3px solid #24292d",
-              color: "#fff",
-            }}
+            className="editor editor-first"
           />
+        </div>
+        <div className="flex-1">
+          <p className="mono text-sm flex-1 mb-sm">Ruby</p>
           <Editor
             value={ruby}
             onValueChange={(code) => setRuby(code)}
             highlight={(code) => highlight(code, languages.ruby, "ruby")}
             padding={15}
-            style={{
-              fontFamily: '"Fira code", "Fira Mono", monospace',
-              fontSize: 16,
-              flex: 1,
-              minHeight: 300,
-              color: "#fff",
-            }}
+            className="editor"
           />
         </div>
       </div>
-      <div style={{ paddingTop: 20, textAlign: "center" }}>
-        <button onClick={() => handleCompilation()}>Compile!</button>
+      <div style={{ textAlign: "center" }}>
+        <button className="button" onClick={() => handleCompilation()}>
+          Compile
+        </button>
       </div>
+
+      <p style={{ marginTop: 80 }}>Supported methods</p>
+      <ul>
+        <li>Functions</li>
+        <li>Classes</li>
+        <li>Arrays</li>
+        <li>Objects</li>
+        <li>Array.map</li>
+      </ul>
+
+      <br />
+      <p>Why?</p>
+      <p>
+        I built this when I first trying to learn both Ruby and Compilers. I had
+        spent years as a JavaScript developer and I wanted to learn about all of
+        the differences and similarities between the languages. I hope that this
+        can serve as a semi-helpful resource for those going from JS to Ruby.
+      </p>
     </div>
   );
 }
