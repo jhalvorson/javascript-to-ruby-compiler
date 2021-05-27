@@ -14,7 +14,8 @@ import { arrays, functions, classes } from "./snippets";
 const Examples = () => (
   <div style={{ marginTop: 90 }}>
     <p style={{ textAlign: "center", marginBottom: 20 }}>
-      Click to open each set of examples
+      Click to open each set of examples that you can copy-paste into the JS
+      editor
     </p>
     <Accordion>
       <AccordionItem>

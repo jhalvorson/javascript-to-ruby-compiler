@@ -76,13 +76,32 @@ export default function Home() {
       <Examples />
 
       <br />
-      <p>Why?</p>
+      <br />
+      <br />
+      <br />
+      <br />
+      <h3>But, why?</h3>
+      <br />
       <p>
         I built this when I first trying to learn both Ruby and Compilers. I had
         spent years as a JavaScript developer and I wanted to learn about all of
         the differences and similarities between the languages. I hope that this
         can serve as a semi-helpful resource for those going from JS to Ruby.
       </p>
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <p className="mono text-sm">
+        by <a href="https://twitter.com/jamiehalvorson">Jamie Halvorson</a>
+      </p>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </div>
   );
 }
