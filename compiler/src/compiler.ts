@@ -2,11 +2,12 @@ import {parse} from '@babel/parser';
 import traverse from '@babel/traverse';
 import {toSnakeCase} from'./utils';
 import generator from './generator';
+import methods from './methods';
 
 function compiler(input) {
   const ast = parse(input);
 
-  console.log(JSON.stringify(ast))
+  // console.log(JSON.stringify(ast))
 
   traverse(ast, {
     enter({ node }) {
@@ -16,9 +17,28 @@ function compiler(input) {
 
       if (node.type === 'CallExpression') {
         // @ts-ignore
-        if (node.callee.type === 'MemberExpression' && node.callee.property.name === 'map' && node.arguments[0].type === 'ArrowFunctionExpression' && node.arguments[0].params.length > 1) {
+        if (node.callee.type === 'MemberExpression') {
+          // Convert `.map` where an index is required to `map.with_index`
+          const args = node.arguments[0];
           // @ts-ignore
-          node.callee.property.name = 'map.with_index'
+          if (node.callee.property.name === 'map' && args.type === 'ArrowFunctionExpression' && args.params.length > 1) {
+            // @ts-ignore
+            node.callee.property.name = 'map.with_index'
+          }
+
+          // Convert available methods when in FunctionExpressions
+          if (args.type === 'ArrowFunctionExpression') {
+            console.log('doing stuff!!')
+            console.log(!!methods.hasOwnProperty(args.body?.callee?.name));
+            // @ts-ignore
+            if (!!methods.hasOwnProperty(args.body?.callee?.name)) {
+              // @ts-ignore
+              args.body.callee.name = "&:" + methods[args.body?.callee?.name]
+              // @ts-ignore
+              args.body.arguments = [];
+              args.params = [];
+            }
+          }
         }
       }
 
@@ -41,6 +61,7 @@ function compiler(input) {
        * 
        * It probably makes sense for the AST to be modified when whilst we traverse it
        */
+
     },
   });
 
@@ -48,7 +69,5 @@ function compiler(input) {
 
   return generatedCode;
 }
-
-console.log(compiler('array.map(item => item + 1)'))
 
 export default compiler;

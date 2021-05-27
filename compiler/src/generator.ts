@@ -1,4 +1,5 @@
-import { Node } from "@babel/types";
+import { Node, Comment } from "@babel/types";
+import { toSnakeCase } from "./utils";
 
 /**
  * This is the file that "generates" the Ruby code from JS. 
@@ -8,6 +9,26 @@ import { Node } from "@babel/types";
  * NOTE: try not to use backticks as it messes with the formatting
 */
 const KEY_VAL_SEPARATOR = ": ";
+
+function printComments(comments: readonly Comment[]) {
+  comments.map(c => "#" + c.value).join('\n');
+}
+
+function handleComments(node: Node, callback) {
+  if (node.leadingComments) {
+    printComments(node.leadingComments);
+  }
+
+  if (node.innerComments) {
+    printComments(node.innerComments);
+  }
+
+  callback()
+
+  if (node.trailingComments) {
+    printComments(node.trailingComments)
+  }
+}
 
 /**
  * Step one, we'll make this niave - they wll just assign at the first level
@@ -21,26 +42,29 @@ function generator(node: Node) {
 
   switch (node.type) {
     case 'Program':
-      return node.body.map(generator)
-        .join('\n');
-
+      if (node.body.length) {
+        return node.body.map(generator)
+          .join('\n');
+      }
+ 
     case 'ClassDeclaration':
-      return "Class " + node.id.name + "\n" + node.body.body.map(generator).join('\n'); + "\n" + "end";
+      // @ts-ignore
+      return "Class " + node.id.name + "\n" + node.body.body.map(generator).join('\n') + "\n" + "end\n\n";
 
     case 'ClassMethod':
       const { key, params, body } = node;
       // @ts-ignore
       if (key.name === 'constructor') {
-        return "  initialize(" + params.map(generator).join(', ') + ")" + "\n" + classConstructorBodyGenerator(body.body) + "\n" + "  end\n"
+        return "\n  initialize(" + params.map(generator).join(', ') + ")" + "\n" + classConstructorBodyGenerator(body.body) + "\n" + "  end\n"
       } else {
         const tab = "  ";
         // @ts-ignore
-        const method = tab + "def " + node.key.name;
+        const method = tab + "def " + toSnakeCase(node.key.name);
         if (node.params.length) {
-          return method + " | "  + node.params.map(generator).join(', ') + " | " + "\n" + tab + tab + node.body.body.map(generator).join('\n') + "\n" + "end\n\n"
+          return method + " | "  + node.params.map(generator).join(', ') + " | " + "\n" + tab + tab + node.body.body.map(generator).join('\n') + "\n" + "end\n"
         }
   
-        return method + "\n" + "   " + node.body.body.map(generator) + "\n" + tab  + "end\n"
+        return method + "\n" + "   " + node.body.body.map(generator).join('') + "\n" + tab  + "end\n"
       }
       
     case 'FunctionDeclaration':
@@ -81,7 +105,7 @@ function generator(node: Node) {
 
     case 'VariableDeclarator':
       // @ts-ignore
-      return node.id.name + " = " + generator(node.init)
+      return toSnakeCase(node.id.name) + " = " + generator(node.init)
 
     case 'TemplateLiteral':
       return '"' + node.expressions.map(item => "#{" + generator(item) + "} ").join('') + node.quasis.map(generator).join('') + '"\n\n'
@@ -110,7 +134,8 @@ function generator(node: Node) {
       // @ts-ignore
       if (object.name) {
         // @ts-ignore
-        return object.name + "." + property.name + " { "
+        return toSnakeCase(object.name) + "." + property.name 
+        // + " { "
       }
 
       return `@${generator(property)}`
@@ -123,11 +148,18 @@ function generator(node: Node) {
      * array.map {&:to_i}
      */
     case 'ArrowFunctionExpression':
-      return "| " + node.params.map(generator).join(', ') + " | " + generator(node.body) + " }"
+      if (!node.params.length) {
+        return " ( " + generator(node.body) + " )"
+      }
 
-    // case 'BlockStatement':
+      return " { | " + node.params.map(generator).join(', ') + " | " + generator(node.body) + " }"
 
+    case 'BlockStatement':
+      return node.body.map(generator).join('');
 
+    case 'NewExpression':
+      // @ts-ignore
+      return node.callee.name + '.new(' + node.arguments.map(generator).join(', ') + ')\n';
 
     default:
       throw new TypeError(node.type + ' not implemented');
