@@ -125,6 +125,9 @@ function generator(node: Node) {
     case 'ArrowFunctionExpression':
       return "| " + node.params.map(generator).join(', ') + " | " + generator(node.body) + " }"
 
+    // case 'BlockStatement':
+
+
 
     default:
       throw new TypeError(node.type + ' not implemented');

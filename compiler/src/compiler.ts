@@ -51,4 +51,4 @@ function compiler(input) {
 
 console.log(compiler('array.map(item => item + 1)'))
 
-module.exports = compiler;
+export default compiler;
