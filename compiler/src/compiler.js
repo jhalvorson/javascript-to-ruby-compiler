@@ -6,6 +6,8 @@ const generator = require('./generator');
 function compiler(input) {
   const ast = parse(input);
 
+  console.log(JSON.stringify(ast))
+
   traverse(ast, {
     enter(path) {
       if (path.node.type === 'FunctionDeclaration') {
@@ -20,7 +22,7 @@ function compiler(input) {
 }
 
 
-const test = "const test = `${one} two three`"
+const test = "const test = `${one} ${one} two three`"
 
 console.log(compiler(test));
 

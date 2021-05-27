@@ -77,7 +77,13 @@ function generator(node) {
       return node.declarations.map(generator)
 
     case 'VariableDeclarator':
-      return node.id.name + " = " + ""
+      return node.id.name + " = " + generator(node.init)
+
+    case 'TemplateLiteral':
+      return '"' + node.expressions.map(item => "#{" + generator(item) + "} ").join('') + node.quasis.map(generator).join('') + '"\n\n'
+
+    case 'TemplateElement':
+      return node.value.raw
 
     default:
       throw new TypeError(node.type);
