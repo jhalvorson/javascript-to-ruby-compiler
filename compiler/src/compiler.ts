@@ -15,7 +15,9 @@ function compiler(input) {
       }
 
       if (node.type === 'CallExpression') {
+        // @ts-ignore
         if (node.callee.type === 'MemberExpression' && node.callee.property.name === 'map' && node.arguments[0].type === 'ArrowFunctionExpression' && node.arguments[0].params.length > 1) {
+          // @ts-ignore
           node.callee.property.name = 'map.with_index'
         }
       }
