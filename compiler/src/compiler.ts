@@ -26,6 +26,14 @@ function compiler(input) {
             node.callee.property.name = 'map.with_index'
           }
 
+          // @ts-ignore
+          if (node.callee.object.name === 'console') {
+            // @ts-ignore
+            node.callee.object.name = 'puts';
+            // @ts-ignore
+            node.callee.property.name = false;
+          }
+
           // Convert available methods when in FunctionExpressions
           if (args.type === 'ArrowFunctionExpression') {
             // @ts-ignore

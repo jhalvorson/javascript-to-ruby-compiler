@@ -132,10 +132,15 @@ function generator(node: Node) {
       const { object, property } = node;
 
       // @ts-ignore
-      if (object.name) {
+      if (object.name && property.name) {
         // @ts-ignore
         return toSnakeCase(object.name) + "." + property.name 
-        // + " { "
+      }
+
+       // @ts-ignore
+      if (object.name) {
+         // @ts-ignore
+        return toSnakeCase(object.name) + " "
       }
 
       return `@${generator(property)}`
@@ -163,6 +168,12 @@ function generator(node: Node) {
 
     case 'NullLiteral':
       return "nil"
+
+    case "IfStatement":
+      return "if " + generator(node.test) + "\n" + "  " + generator(node.consequent) + "\nend\n"
+
+    case "BooleanLiteral":
+      return node.value
 
     default:
       throw new TypeError(node.type + ' not implemented');

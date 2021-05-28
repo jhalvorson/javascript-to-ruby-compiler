@@ -46,3 +46,7 @@ const myCalc = new Calculator(1, 2);
 
 // myCalc.add();
 ```
+
+if (true) {
+console.log('hi!');
+}
