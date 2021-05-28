@@ -44,17 +44,34 @@ class Calculator {
 
 const myCalc = new Calculator(1, 2);
 
-// myCalc.add();
+if (true) {
+  console.log("hi!");
+}
+
+if (true && object.name === "true") {
+  console.log("hi!");
+}
+
+if ((true && object.name === "true") || false) {
+  console.log("hi!");
+}
 ```
 
-if (true) {
-console.log('hi!');
+- for each loop
+  - array
+  - hash
+  - times
+- range??
+
+for (i = 0; i < 5; i++) {
+console.log(i)
 }
 
-if (true && object.name === 'true') {
-console.log('hi!');
-}
+```ruby
+for i in 1..x
+  puts i
+end
 
-if ((true && object.name === 'true') || false) {
-console.log('hi!');
-}
+array.each { |item| item * 2 }
+hash.each { |key, value| "#{key} price is #{value}" }
+```

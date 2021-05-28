@@ -10,18 +10,28 @@ import Examples from "../components/examples/examples";
 export default function Home() {
   const [code, setCode] = useState(`function add(a, b) {\n  return a + b;\n}`);
   const [ruby, setRuby] = useState(`def add | a, b | \n a + b \nend`);
+  const [error, setError] = useState(false);
 
   const handleCompilation = async () => {
-    // const rubyCode = compiler(code);
-
     await fetch(`${process.env.NEXT_PUBLIC_URL}/api/compile`, {
       method: "POST",
       body: JSON.stringify({
         code,
       }),
     })
-      .then((res) => res.json())
-      .then((res) => setRuby(res.code))
+      .then((res) => {
+        setError(false);
+
+        if (res.ok) {
+          return res.json();
+        }
+
+        setError(true);
+        setRuby(`# an error occured. sad times.`);
+      })
+      .then((res) => {
+        setRuby(res.code);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -46,12 +56,28 @@ export default function Home() {
           Far from perfect. No where near complete. Kinda fun.
         </p>
       </div>
+
+      {error && (
+        <div role="alert" className="error">
+          <p>
+            Failed to compile the provided JavaScript. It's likely that what
+            you've attempted is not yet supported.
+          </p>
+        </div>
+      )}
+
       <div className="flex">
         <div className="flex-1">
           <p className="mono text-sm flex-1 mb-sm">JavaScript</p>
           <Editor
             value={code}
-            onValueChange={(code) => setCode(code)}
+            onValueChange={(code) => {
+              if (error) {
+                setError(false);
+              }
+
+              setCode(code);
+            }}
             highlight={(code) =>
               highlight(code, languages.javascript, "javascript")
             }
@@ -71,7 +97,10 @@ export default function Home() {
         </div>
       </div>
       <div style={{ textAlign: "center" }}>
-        <button className="button" onClick={() => handleCompilation()}>
+        <button
+          className={["button", error ? "error" : ""].join(" ")}
+          onClick={() => handleCompilation()}
+        >
           Compile
         </button>
       </div>

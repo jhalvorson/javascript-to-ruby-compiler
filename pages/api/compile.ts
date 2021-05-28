@@ -10,7 +10,7 @@ export default (req, res) => {
 
       res.status(200).json({ code: compile })
     } catch (err) {
-      res.status(500).json({ message: err })
+      res.status(500).json({ message: 'Failed to compile' })
     }
     // Process a POST request
   } else {

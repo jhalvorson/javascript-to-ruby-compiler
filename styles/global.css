@@ -4,6 +4,10 @@
   --editor-border-focus: #58646d;
 
   --font-mono: "IBM Plex Mono", monospace;
+
+  --error-bg: #ff5555;
+  --error-text: #1a0a0a;
+  --error-border: #d34646;
 }
 
 body {
@@ -160,6 +164,10 @@ p {
   cursor: pointer;
 }
 
+.button.error {
+  background-color: var(--error-bg);
+}
+
 [data-reach-accordion-item] {
   margin-bottom: 20px;
 }
@@ -178,6 +186,15 @@ p {
 
 a {
   color: var(--green);
+}
+
+.error {
+  margin-bottom: 30px;
+  border: 2px solid var(--error-border);
+  background-color: var(--error-bg);
+  color: var(--error-text);
+  padding: 12px;
+  border-radius: 4px;
 }
 
 /* PrismJS 1.14.0

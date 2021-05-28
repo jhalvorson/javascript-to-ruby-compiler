@@ -15,7 +15,13 @@ function compiler(input) {
         node.id.name = toSnakeCase(node.id.name)
       }
 
+      
       if (node.type === 'CallExpression') {
+        if (node.callee.type === 'Identifier') {
+          // @ts-ignore
+          node.callee.name = toSnakeCase(node.callee.name);
+        }
+
         // @ts-ignore
         if (node.callee.type === 'MemberExpression') {
           // Convert `.map` where an index is required to `map.with_index`
@@ -35,7 +41,7 @@ function compiler(input) {
           }
 
           // Convert available methods when in FunctionExpressions
-          if (args.type === 'ArrowFunctionExpression') {
+          if (args?.type === 'ArrowFunctionExpression') {
             // @ts-ignore
             if (!!methods.hasOwnProperty(args.body?.callee?.name)) {
               // @ts-ignore
