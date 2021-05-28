@@ -187,6 +187,30 @@ function generator(node: Node) {
 
         return generator(node.left) + " " + operators[node.operator] + " " + generator(node.right)
 
+      case "ForStatement":
+        // @ts-ignore
+        if (node.test.right?.value) {
+          // @ts-ignore
+          const value = node.test.right?.value
+          const mapping = {
+            '<': value - 1,
+            '>': value + 1,
+            '=': value,
+            '==': value,
+            '===': value,
+            '<=': value - 1,
+            '>=': value
+          }
+          // @ts-ignore
+          const newValue = mapping[node.test.operator]
+          // @ts-ignore
+          return newValue + ".times do\n" + " " + generator(node.body) + "\nend\n"
+        }
+
+      case "AssignmentExpression":
+        // @ts-ignore
+        return generator(node.left) + " " + node.operator + " " + generator(node.right)
+
       default:
         throw new TypeError(node.type + ' not implemented');
     }

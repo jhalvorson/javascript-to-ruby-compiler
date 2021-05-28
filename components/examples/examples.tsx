@@ -15,6 +15,7 @@ import {
   classes,
   ifStatements,
   logicalOperators,
+  iterators,
 } from "./snippets";
 
 const Examples = () => (
@@ -99,6 +100,22 @@ const Examples = () => (
         <AccordionPanel>
           <Editor
             value={logicalOperators}
+            onValueChange={console.log}
+            highlight={(code) =>
+              highlight(code, languages.javascript, "javascript")
+            }
+            padding={15}
+            className="editor editor-first editor-example"
+          />
+        </AccordionPanel>
+      </AccordionItem>
+      <AccordionItem>
+        <h3>
+          <AccordionButton>Iterators</AccordionButton>
+        </h3>
+        <AccordionPanel>
+          <Editor
+            value={iterators}
             onValueChange={console.log}
             highlight={(code) =>
               highlight(code, languages.javascript, "javascript")

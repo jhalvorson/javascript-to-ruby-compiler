@@ -63,4 +63,10 @@ const logicalOperators = `
   const test = (true && object.name === 'true') || false
 `
 
-export { arrays, functions, classes, ifStatements, logicalOperators }
+const iterators = `
+for (i = 0; i >= 5; i++) {
+  console.log(i)
+}
+`
+
+export { iterators, arrays, functions, classes, ifStatements, logicalOperators }
