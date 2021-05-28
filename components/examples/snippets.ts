@@ -49,4 +49,10 @@ class Calculator {
 const myCalc = new Calculator(1, 2);
 `;
 
-export { arrays, functions, classes }
+const ifStatements = `
+  if (true) {
+    console.log("it's true!");
+  }
+`
+
+export { arrays, functions, classes, ifStatements }

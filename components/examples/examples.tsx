@@ -9,7 +9,7 @@ import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import Editor from "react-simple-code-editor";
-import { arrays, functions, classes } from "./snippets";
+import { arrays, functions, classes, ifStatements } from "./snippets";
 
 const Examples = () => (
   <div style={{ marginTop: 90 }}>
@@ -61,6 +61,22 @@ const Examples = () => (
         <AccordionPanel>
           <Editor
             value={classes}
+            onValueChange={console.log}
+            highlight={(code) =>
+              highlight(code, languages.javascript, "javascript")
+            }
+            padding={15}
+            className="editor editor-first editor-example"
+          />
+        </AccordionPanel>
+      </AccordionItem>
+      <AccordionItem>
+        <h3>
+          <AccordionButton>If statements</AccordionButton>
+        </h3>
+        <AccordionPanel>
+          <Editor
+            value={ifStatements}
             onValueChange={console.log}
             highlight={(code) =>
               highlight(code, languages.javascript, "javascript")

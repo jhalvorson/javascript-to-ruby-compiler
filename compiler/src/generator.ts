@@ -46,6 +46,8 @@ function generator(node: Node) {
         return node.body.map(generator)
           .join('\n');
       }
+
+      return '# no code was passed to the compiler'
  
     case 'ClassDeclaration':
       // @ts-ignore
