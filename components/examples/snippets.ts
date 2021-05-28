@@ -28,6 +28,12 @@ const functions = `
 function myFunction(a, b) {
   return a + b;
 }
+
+const myArrowFunc = (a, b) => a + b;
+
+const myArroFunc = (a, b) => {
+  return a + b
+}
 `
 
 const classes = `
@@ -69,4 +75,24 @@ for (i = 0; i >= 5; i++) {
 }
 `
 
-export { iterators, arrays, functions, classes, ifStatements, logicalOperators }
+const strings = "`My name is ${name} and I'm ${age} years old`"
+
+const switchStatement = `
+const number = 10;
+let statement = '';
+
+switch(number) {
+  case number < 3:
+    statement = 'Low!';
+    break;
+  case number < 7:
+    statement = 'Medium!';
+    break;
+  
+  default:
+    statement = 'High!';
+    break;
+}
+`
+
+export { switchStatement, strings, iterators, arrays, functions, classes, ifStatements, logicalOperators }

@@ -24,20 +24,30 @@ function compiler(input) {
 
         // @ts-ignore
         if (node.callee.type === 'MemberExpression') {
+          // @ts-ignore
+          let objectName = node.callee.object.name;
+          // @ts-ignore
+          let propertyName = node.callee.property.name;
           // Convert `.map` where an index is required to `map.with_index`
           const args = node.arguments[0];
-          // @ts-ignore
-          if (node.callee.property.name === 'map' && args.type === 'ArrowFunctionExpression' && args.params.length > 1) {
-            // @ts-ignore
-            node.callee.property.name = 'map.with_index'
+
+          // Array methods
+          if (propertyName === 'forEach') {
+            propertyName = 'each'
           }
 
-          // @ts-ignore
-          if (node.callee.object.name === 'console') {
+          if (propertyName === 'map' && args.type === 'ArrowFunctionExpression' && args.params.length > 1) {
+            propertyName = 'map.with_index'
+          }
+
+          if (objectName === 'console') {
+            objectName = 'puts';
+            propertyName = false;
+          }
+
+          if (objectName === 'Object' && propertyName === 'keys') {
             // @ts-ignore
-            node.callee.object.name = 'puts';
-            // @ts-ignore
-            node.callee.property.name = false;
+            objectName = args.name;
           }
 
           // Convert available methods when in FunctionExpressions
@@ -51,6 +61,11 @@ function compiler(input) {
               args.params = [];
             }
           }
+
+          // @ts-ignore
+          node.callee.object.name = objectName;
+          // @ts-ignore
+          node.callee.property.name = propertyName;
         }
       }
 

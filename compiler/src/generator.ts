@@ -111,7 +111,7 @@ function generator(node: Node) {
         return toSnakeCase(node.id.name) + " = " + generator(node.init)
 
       case 'TemplateLiteral':
-        return '"' + node.expressions.map(item => "#{" + generator(item) + "} ").join('') + node.quasis.map(generator).join('') + '"\n\n'
+        return '"' + node.quasis.map((item, index) => `${generator(item)}${!item.tail ? `#{${generator(node.expressions[index])}}` : ''}`).join('') + '"\n'
 
       case 'TemplateElement':
         return node.value.raw
@@ -157,7 +157,7 @@ function generator(node: Node) {
        */
       case 'ArrowFunctionExpression':
         if (!node.params.length) {
-          return " ( " + generator(node.body) + " )"
+          return "( " + generator(node.body) + " )"
         }
 
         return " { | " + node.params.map(generator).join(', ') + " | " + generator(node.body) + " }"
@@ -210,6 +210,20 @@ function generator(node: Node) {
       case "AssignmentExpression":
         // @ts-ignore
         return generator(node.left) + " " + node.operator + " " + generator(node.right)
+
+      case "SwitchStatement":
+        // @ts-ignore
+        return "case " + node.discriminant.name + "\n" + node.cases.map(generator).join('\n') + "end\n"
+
+      case "SwitchCase":
+        if (node.test) {
+          return "  when " + generator(node.test) + "\n" + "    " + node.consequent.map(generator);
+        }
+
+        return "  else" + "\n" + "    " + node.consequent.map(generator);
+
+      case "BreakStatement":
+        return "\n" 
 
       default:
         throw new TypeError(node.type + ' not implemented');
