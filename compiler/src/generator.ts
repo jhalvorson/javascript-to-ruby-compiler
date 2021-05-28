@@ -161,6 +161,9 @@ function generator(node: Node) {
       // @ts-ignore
       return node.callee.name + '.new(' + node.arguments.map(generator).join(', ') + ')\n';
 
+    case 'NullLiteral':
+      return "nil"
+
     default:
       throw new TypeError(node.type + ' not implemented');
   }

@@ -7,7 +7,7 @@ import methods from './methods';
 function compiler(input) {
   const ast = parse(input);
 
-  // console.log(JSON.stringify(ast))
+  console.log(JSON.stringify(ast))
 
   traverse(ast, {
     enter({ node }) {
