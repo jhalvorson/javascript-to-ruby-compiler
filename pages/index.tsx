@@ -42,6 +42,9 @@ export default function Home() {
           A simplistic and naive compiler to convert basic JavaScript to Ruby.
           Built on top of Babel.
         </p>
+        <p style={{ marginBottom: 15 }}>
+          Far from perfect. No where near complete. Kinda fun.
+        </p>
       </div>
       <div className="flex">
         <div className="flex-1">

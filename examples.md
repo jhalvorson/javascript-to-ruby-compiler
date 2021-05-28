@@ -50,3 +50,11 @@ const myCalc = new Calculator(1, 2);
 if (true) {
 console.log('hi!');
 }
+
+if (true && object.name === 'true') {
+console.log('hi!');
+}
+
+if ((true && object.name === 'true') || false) {
+console.log('hi!');
+}

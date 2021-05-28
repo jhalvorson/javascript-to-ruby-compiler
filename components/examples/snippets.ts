@@ -1,7 +1,7 @@
 const arrays = `
 const array = [1, 2, 3];
 
-const array = [
+const complexArray = [
   {
     "first key": "first",
     second: "second",
@@ -17,7 +17,7 @@ const newArray = array.map((item) => {
   return item + 1;
 });
 
-const newArray = array.map((item, index) => {
+const newArrayPlusOne = array.map((item, index) => {
   return item + 1 + index;
 });
 
@@ -53,6 +53,14 @@ const ifStatements = `
   if (true) {
     console.log("it's true!");
   }
+
+  if (true && object.name === 'true') {
+    console.log('hi!');
+  }
 `
 
-export { arrays, functions, classes, ifStatements }
+const logicalOperators = `
+  const test = (true && object.name === 'true') || false
+`
+
+export { arrays, functions, classes, ifStatements, logicalOperators }

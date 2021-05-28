@@ -1,4 +1,5 @@
 import { Node, Comment } from "@babel/types";
+import operators from "./operators";
 import { toSnakeCase } from "./utils";
 
 /**
@@ -103,7 +104,7 @@ function generator(node: Node) {
       return '"' + node.value + '"';
 
     case 'VariableDeclaration':
-      return node.declarations.map(generator)
+      return node.declarations.map(generator) + '\n'
 
     case 'VariableDeclarator':
       // @ts-ignore
@@ -116,7 +117,7 @@ function generator(node: Node) {
       return node.value.raw
 
     case 'ArrayExpression':
-      return "[ " + node.elements.map(generator).join(', ') + " ]\n\n"
+      return "[ " + node.elements.map(generator).join(', ') + " ]"
 
     case 'ObjectExpression':
       // If there are spaces in the key then use strings, else use symbols
@@ -176,6 +177,15 @@ function generator(node: Node) {
 
     case "BooleanLiteral":
       return node.value
+
+    case "LogicalExpression":
+      const hasParens = node.extra?.parenthesized;
+
+      if (hasParens) {
+        return "(" +  generator(node.left) + " " + operators[node.operator] + " " + generator(node.right) + ") "
+      }
+
+      return generator(node.left) + " " + operators[node.operator] + " " + generator(node.right)
 
     default:
       throw new TypeError(node.type + ' not implemented');
