@@ -17,7 +17,7 @@ const newArray = array.map((item) => {
   return item + 1;
 });
 
-const newArrayPlusOne = array.map((item, index) => {
+const newArrayWithIndex= array.map((item, index) => {
   return item + 1 + index;
 });
 
