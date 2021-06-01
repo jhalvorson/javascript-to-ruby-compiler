@@ -58,7 +58,7 @@ function generator(node: Node) {
         const { key, params, body } = node;
         // @ts-ignore
         if (key.name === 'constructor') {
-          return "\n  initialize(" + params.map(generator).join(', ') + ")" + "\n" + classConstructorBodyGenerator(body.body) + "\n" + "  end\n"
+          return "\n  def initialize(" + params.map(generator).join(', ') + ")" + "\n" + classConstructorBodyGenerator(body.body) + "\n" + "  end\n"
         } else {
           const tab = "  ";
           // @ts-ignore
@@ -129,7 +129,15 @@ function generator(node: Node) {
         return " " + formattedKey + KEY_VAL_SEPARATOR + generator(node.value)
 
       case 'CallExpression':
-        return generator(node.callee) + node.arguments.map(generator)
+        if (node?.arguments?.length) {
+          // if (node.arguments[0].type === 'ArrowFunctionExpression') {
+          //   generator(node.callee)
+          // }
+
+          return generator(node.callee) + "(" + node.arguments.map(generator).join(', ') + ")"
+        }
+
+        return generator(node.callee)
 
       case 'MemberExpression':
         const { object, property } = node;

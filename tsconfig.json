@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "compiler/src/generator.js"  ],
+, "compiler/src/generator.js", "compiler/__tests__/matchers/ignoreWhitespace.js"  ],
   "exclude": [
     "node_modules"
   ]
