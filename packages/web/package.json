@@ -1,6 +1,5 @@
 {
   "name": "@js-to-ruby/web",
-  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
