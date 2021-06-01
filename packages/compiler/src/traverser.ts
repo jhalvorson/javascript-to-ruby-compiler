@@ -1,10 +1,12 @@
 import traverse from "@babel/traverse";
-import { toSnakeCase } from "./utils";
+import { Node } from '@babel/types';
+import { toSnakeCase } from "./utils/toSnakeCase";
 
-function traverser(ast) {
+function traverser(ast: Node | Node[] | null | undefined) {
   traverse(ast, {
     enter({ node }) {
       if (node.type === 'FunctionDeclaration') {
+        // @ts-ignore
         node.id.name = toSnakeCase(node.id.name)
       }
 

@@ -2,10 +2,8 @@ import {parse} from '@babel/parser';
 import generator from './generator';
 import traverser from './traverser';
 
-function compiler(input) {
+function compiler(input: string) {
   const ast = parse(input);
-
-  console.log(JSON.stringify(ast))
 
   traverser(ast);
 

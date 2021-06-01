@@ -1,0 +1,28 @@
+{
+  "name": "@js-to-ruby/compiler",
+  "version": "0.0.1",
+  "description": "Converts JavaScript to Ruby",
+  "main": "dist/index.js",
+  "author": "Jamie Halvorson",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "tsc",
+    "watch": "tsc -w",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.2",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.6.1",
+    "jest": "^27.0.1",
+    "jest-diff": "^27.0.2",
+    "jest-matcher-utils": "^27.0.2",
+    "ts-jest": "^27.0.2"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.14.4",
+    "@babel/traverse": "^7.14.2",
+    "@babel/types": "^7.14.4"
+  }
+}
