@@ -1,17 +1,12 @@
-import {parse} from '@babel/parser';
-import traverse from '@babel/traverse';
-import {toSnakeCase} from'./utils';
-import generator from './generator';
-import methods from './methods';
+import traverse from "@babel/traverse";
+import { Node } from '@babel/types';
+import { toSnakeCase } from "./utils/toSnakeCase";
 
-function compiler(input) {
-  const ast = parse(input);
-
-  console.log(JSON.stringify(ast))
-
+function traverser(ast: Node | Node[] | null | undefined) {
   traverse(ast, {
     enter({ node }) {
       if (node.type === 'FunctionDeclaration') {
+        // @ts-ignore
         node.id.name = toSnakeCase(node.id.name)
       }
 
@@ -52,8 +47,9 @@ function compiler(input) {
 
           // Convert available methods when in FunctionExpressions
           if (args?.type === 'ArrowFunctionExpression') {
+            console.log({ body: args.body })
             // @ts-ignore
-            if (!!methods.hasOwnProperty(args.body?.callee?.name)) {
+            if (args.body?.callee?.name && !!methods.hasOwnProperty(args.body.callee.name)) {
               // @ts-ignore
               args.body.callee.name = "&:" + methods[args.body?.callee?.name]
               // @ts-ignore
@@ -66,6 +62,8 @@ function compiler(input) {
           node.callee.object.name = objectName;
           // @ts-ignore
           node.callee.property.name = propertyName;
+          // @ts-ignore
+          node.arguments[0] = args;
         }
       }
 
@@ -91,10 +89,6 @@ function compiler(input) {
 
     },
   });
-
-  const generatedCode = generator(ast.program);
-
-  return generatedCode;
 }
 
-export default compiler;
+export default traverser;

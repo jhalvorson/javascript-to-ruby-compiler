@@ -1,6 +1,6 @@
-import { Node, Comment } from "@babel/types";
+import { Node, Comment, Statement } from "@babel/types";
 import operators from "./operators";
-import { toSnakeCase } from "./utils";
+import { toSnakeCase } from "./utils/toSnakeCase";
 
 /**
  * This is the file that "generates" the Ruby code from JS. 
@@ -15,31 +15,16 @@ function printComments(comments: readonly Comment[]) {
   comments.map(c => "#" + c.value).join('\n');
 }
 
-function handleComments(node: Node, callback) {
-  if (node.leadingComments) {
-    printComments(node.leadingComments);
-  }
-
-  if (node.innerComments) {
-    printComments(node.innerComments);
-  }
-
-  callback()
-
-  if (node.trailingComments) {
-    printComments(node.trailingComments)
-  }
-}
-
 /**
  * Step one, we'll make this niave - they wll just assign at the first level
  * @param {[]} body 
  */
-function classConstructorBodyGenerator(body) {
-  return body.map(item => "    @" + item.expression.left.property.name + " " + item.expression.operator + " " + item.expression.right.name).join('\n')
+function classConstructorBodyGenerator(body: Array<Statement>) {
+  // @ts-ignore
+  return body.map((item) => "    @" + item.expression.left.property.name + " " + item.expression.operator + " " + item.expression.right.name).join('\n')
 }
 
-function generator(node: Node) {
+function generator(node: Node): string | number | boolean {
   try {
     switch (node.type) {
       case 'Program':
@@ -58,7 +43,7 @@ function generator(node: Node) {
         const { key, params, body } = node;
         // @ts-ignore
         if (key.name === 'constructor') {
-          return "\n  initialize(" + params.map(generator).join(', ') + ")" + "\n" + classConstructorBodyGenerator(body.body) + "\n" + "  end\n"
+          return "\n  def initialize(" + params.map(generator).join(', ') + ")" + "\n" + classConstructorBodyGenerator(body.body) + "\n" + "  end\n"
         } else {
           const tab = "  ";
           // @ts-ignore
@@ -71,7 +56,7 @@ function generator(node: Node) {
         }
         
       case 'FunctionDeclaration':
-        const method = "def " + node.id.name;
+        const method = "def " + node?.id?.name;
         
         if (node.params.length) {
           return method + " | " + node.params.map(generator).join(', ') + " |\n" + "  " + node.body.body.map(generator).join('\n') + "\n" + "end\n\n"
@@ -83,6 +68,7 @@ function generator(node: Node) {
         return `${generator(node.left)} ${node.operator} ${generator(node.right)}`;
 
       case 'ReturnStatement':
+        // @ts-ignore
         return generator(node.argument)
 
       case 'ExpressionStatement':
@@ -117,6 +103,7 @@ function generator(node: Node) {
         return node.value.raw
 
       case 'ArrayExpression':
+        // @ts-ignore
         return "[ " + node.elements.map(generator).join(', ') + " ]"
 
       case 'ObjectExpression':
@@ -129,7 +116,15 @@ function generator(node: Node) {
         return " " + formattedKey + KEY_VAL_SEPARATOR + generator(node.value)
 
       case 'CallExpression':
-        return generator(node.callee) + node.arguments.map(generator)
+        if (node?.arguments?.length) {
+          // if (node.arguments[0].type === 'ArrowFunctionExpression') {
+          //   generator(node.callee)
+          // }
+
+          return generator(node.callee) + "(" + node.arguments.map(generator).join(', ') + ")"
+        }
+
+        return generator(node.callee)
 
       case 'MemberExpression':
         const { object, property } = node;
@@ -182,9 +177,11 @@ function generator(node: Node) {
         const hasParens = node.extra?.parenthesized;
 
         if (hasParens) {
+          //@ts-ignore
           return "(" +  generator(node.left) + " " + operators[node.operator] + " " + generator(node.right) + ") "
         }
 
+        //@ts-ignore
         return generator(node.left) + " " + operators[node.operator] + " " + generator(node.right)
 
       case "ForStatement":
