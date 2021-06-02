@@ -15,6 +15,8 @@ This repository is managed with Lerna and Yarn workspaces allowing the compiler 
 
 ## Compatibility and support
 
+Examples of supported code can be [found on the demo](https://js-to-ruby.vercel.app/).
+
 | JS          | Supported          | Notes |
 | ----------- | ------------------ | ----- |
 | `Array`     | :white_check_mark: |       |
