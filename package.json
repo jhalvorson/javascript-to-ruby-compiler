@@ -6,7 +6,7 @@
   ],
   "scripts": {
     "bootstrap": "yarn install; lerna bootstrap",
-    "start:web": "lerna run --scope @js-to-ruby/web --stream dev",
+    "start:web": "DEBUG=true lerna run --scope @js-to-ruby/web --stream dev",
     "build:compiler": "lerna run --scope @js-to-ruby/compiler --stream build",
     "publish:all": "lerna publish from-package"
   }
