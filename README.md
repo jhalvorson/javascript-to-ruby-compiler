@@ -15,9 +15,9 @@ This repository is managed with Lerna and Yarn workspaces allowing the compiler 
 
 ## Compatibility and support
 
-| JS          | Supported | Notes |
-| ----------- | --------- | ----- |
-| `Array`     | :check:   |       |
-| `Array.map` | :check:   |       |
-| `Class`     | :check:   |       |
-| `if...else` | :check:   |       |
+| JS          | Supported          | Notes |
+| ----------- | ------------------ | ----- |
+| `Array`     | :white_check_mark: |       |
+| `Array.map` | :white_check_mark: |       |
+| `Class`     | :white_check_mark: |       |
+| `if...else` | :white_check_mark: |       |
