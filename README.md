@@ -17,9 +17,14 @@ This repository is managed with Lerna and Yarn workspaces allowing the compiler 
 
 Examples of supported code can be [found on the demo](https://js-to-ruby.vercel.app/).
 
-| JS          | Supported          | Notes |
-| ----------- | ------------------ | ----- |
-| `Array`     | :white_check_mark: |       |
-| `Array.map` | :white_check_mark: |       |
-| `Class`     | :white_check_mark: |       |
-| `if...else` | :white_check_mark: |       |
+| JS            | Supported          | Notes |
+| ------------- | ------------------ | ----- |
+| `Array`       | :white_check_mark: |       |
+| `Array.map`   | :white_check_mark: |       |
+| `Class`       | :white_check_mark: |       |
+| `if...else`   | :white_check_mark: |       |
+| `console.log` | :white_check_mark: |       |
+
+## Contributing
+
+As noted above this repository is managed with Lerna. To install all dependencies and link the packages you need to run `yarn bootstrap`, after that you can run `yarn start:web` which watches the compiler and runs the dev playground/demo.

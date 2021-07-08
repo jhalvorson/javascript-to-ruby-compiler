@@ -24,6 +24,19 @@ function classConstructorBodyGenerator(body: Array<Statement>) {
   return body.map((item) => "    @" + item.expression.left.property.name + " " + item.expression.operator + " " + item.expression.right.name).join('\n')
 }
 
+let state = {
+  inIfElse: false,
+}
+
+function updateIfElseState(node: Node): void {
+  // @ts-ignore
+  if (node?.alternate?.test) {
+    state.inIfElse = true;
+  } else {
+    state.inIfElse = false;
+  }
+}
+
 function generator(node: Node): string | number | boolean {
   try {
     switch (node.type) {
@@ -168,7 +181,20 @@ function generator(node: Node): string | number | boolean {
         return "nil"
 
       case "IfStatement":
-        return "if " + generator(node.test) + "\n" + "  " + generator(node.consequent) + "\nend\n"
+        let statement = ''
+
+        if (state.inIfElse) {
+          updateIfElseState(node);
+          statement = "elsif " + generator(node.test) + "\n" + "  " + generator(node.consequent) + "\n"
+        } else if (node.alternate) {
+          // @ts-ignore
+          updateIfElseState(node);
+          statement = "if " + generator(node.test) + "\n" + "  " + generator(node.consequent) + "\n" + generator(node.alternate) + "\nend\n"
+        } else if (node.test) { 
+          statement = "if " + generator(node.test) + "\n" + "  " + generator(node.consequent) +  "\nend\n"
+        }
+
+        return statement;
 
       case "BooleanLiteral":
         return node.value
