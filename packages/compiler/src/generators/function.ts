@@ -1,6 +1,14 @@
-import { ClassDeclaration, ClassMethod, FunctionDeclaration } from "@babel/types";
+import { ClassMethod, FunctionDeclaration } from "@babel/types";
 import Generator from "./abstract-generator";
 
+/**
+ * Generates Ruby methods from JavaScript functions.
+ * 
+ * This class currently handles indentation which could certainly be improved.
+ * 
+ * @example new FunctionGenerator(node, generator).run()
+ * @returns a Ruby method with the appropriate arguments
+ */
 class FunctionGenerator extends Generator<FunctionDeclaration | ClassMethod> {
     indent: string;
 
