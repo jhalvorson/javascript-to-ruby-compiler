@@ -1,6 +1,7 @@
-import { Node, Comment, Statement } from "@babel/types";
+import { Node, Comment } from "@babel/types";
 import operators from "./operators";
 import { toSnakeCase } from "./utils/toSnakeCase";
+import { ProgrammeGenerator, ClassGenerator, FunctionGenerator } from './generators';
 
 /**
  * This is the file that "generates" the Ruby code from JS. 
@@ -15,54 +16,21 @@ function printComments(comments: readonly Comment[]) {
   comments.map(c => "#" + c.value).join('\n');
 }
 
-/**
- * Step one, we'll make this niave - they wll just assign at the first level
- * @param {[]} body 
- */
-function classConstructorBodyGenerator(body: Array<Statement>) {
-  // @ts-ignore
-  return body.map((item) => "    @" + item.expression.left.property.name + " " + item.expression.operator + " " + item.expression.right.name).join('\n')
-}
-
 function generator(node: Node): string | number | boolean {
   try {
     switch (node.type) {
       case 'Program':
-        if (node.body.length) {
-          return node.body.map(generator)
-            .join('\n');
-        }
-
-        return '# no code was passed to the compiler'
+        return  new ProgrammeGenerator(node, generator).run()
   
       case 'ClassDeclaration':
         // @ts-ignore
         return "Class " + node.id.name + "\n" + node.body.body.map(generator).join('\n') + "\n" + "end\n\n";
 
       case 'ClassMethod':
-        const { key, params, body } = node;
-        // @ts-ignore
-        if (key.name === 'constructor') {
-          return "\n  def initialize(" + params.map(generator).join(', ') + ")" + "\n" + classConstructorBodyGenerator(body.body) + "\n" + "  end\n"
-        } else {
-          const tab = "  ";
-          // @ts-ignore
-          const method = tab + "def " + toSnakeCase(node.key.name);
-          if (node.params.length) {
-            return method + " | "  + node.params.map(generator).join(', ') + " | " + "\n" + tab + tab + node.body.body.map(generator).join('\n') + "\n" + "end\n"
-          }
-    
-          return method + "\n" + "   " + node.body.body.map(generator).join('') + "\n" + tab  + "end\n"
-        }
+        return new ClassGenerator(node, generator).run()
         
       case 'FunctionDeclaration':
-        const method = "def " + node?.id?.name;
-        
-        if (node.params.length) {
-          return method + " | " + node.params.map(generator).join(', ') + " |\n" + "  " + node.body.body.map(generator).join('\n') + "\n" + "end\n\n"
-        }
-
-        return method + "\n" + "  " + node.body.body.map(generator).join('\n') + "\n" + "end\n\n";
+        return new FunctionGenerator(node, generator).run()
 
       case 'BinaryExpression':
         return `${generator(node.left)} ${node.operator} ${generator(node.right)}`;
