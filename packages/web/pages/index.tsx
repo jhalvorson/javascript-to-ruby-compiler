@@ -11,9 +11,14 @@ export default function Home() {
   const [code, setCode] = useState(`function add(a, b) {\n  return a + b;\n}`);
   const [ruby, setRuby] = useState(`def add | a, b | \n a + b \nend`);
   const [error, setError] = useState(false);
+  const [apiState, setApiState] = useState<'completed' | 'pending'>('completed')
+
+  const apiComplete = () => setApiState('completed')
 
   const handleCompilation = async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_URL}/api/compile`, {
+    setApiState('pending')
+    const url = process.env.NODE_ENV === 'development' ? '/api/compile' : `${process.env.NEXT_PUBLIC_URL}/api/compile`
+    await fetch(url, {
       method: "POST",
       body: JSON.stringify({
         code,
@@ -23,9 +28,11 @@ export default function Home() {
         setError(false);
 
         if (res.ok) {
+          apiComplete();
           return res.json();
         }
 
+        apiComplete();
         setError(true);
         setRuby(`# an error occured. sad times.`);
       })
@@ -101,7 +108,7 @@ export default function Home() {
           className={["button", error ? "error" : ""].join(" ")}
           onClick={() => handleCompilation()}
         >
-          Compile
+          {apiState === 'completed' ? 'Compile' : 'Compiling...'}
         </button>
       </div>
 
