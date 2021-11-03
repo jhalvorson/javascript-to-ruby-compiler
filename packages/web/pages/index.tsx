@@ -3,9 +3,9 @@ import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-ruby";
-import { useState } from "react";
+import React, { useState } from "react";
 import Examples from "../components/examples/examples";
-// import compiler from "../compiler/src/compiler";
+import GitHub from "../components/github/github";
 
 export default function Home() {
   const [code, setCode] = useState(`function add(a, b) {\n  return a + b;\n}`);
@@ -45,24 +45,30 @@ export default function Home() {
   return (
     <div className="container">
       <div className="hero">
-        <h1
-          style={{
-            color: "#fff",
-            fontSize: 32,
-            fontWeight: 600,
-            marginBottom: 30,
-          }}
-        >
-          JavaScript to Ruby Compiler
-        </h1>
-        <p style={{ marginBottom: 15 }}>
-          A simplistic and naive compiler to convert basic JavaScript to Ruby.
-          Built on top of Babel.
-        </p>
-        <p style={{ marginBottom: 15 }}>
-          Far from perfect. No where near complete. Kinda fun.
-        </p>
+        <div className="content">
+          <h1
+            style={{
+              color: "#fff",
+              fontSize: 32,
+              fontWeight: 600,
+              marginBottom: 30,
+            }}
+          >
+            JavaScript to Ruby Compiler
+          </h1>
+          <p style={{ marginBottom: 15 }}>
+            A simplistic and naive compiler to convert basic JavaScript to Ruby.
+            Built on top of Babel.
+          </p>
+          <p style={{ marginBottom: 15 }}>
+            Far from perfect. No where near complete. Kinda fun.
+          </p>
+        </div>
+        <div className="links">
+          <GitHub />
+        </div>
       </div>
+
 
       {error && (
         <div role="alert" className="error">

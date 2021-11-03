@@ -1,0 +1,22 @@
+.ghLink {
+    color: #fff;
+    display: inline-flex;
+    border-radius: 7px;
+    font-size: 0.85rem;
+    padding: 4px;
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s;
+}
+
+.ghLink:hover,
+.ghLink:hover svg {
+    color: var(--green)
+}
+
+.ghLink svg {
+    width: 20px;
+    height: 20px;
+    margin-left: 6px;
+}
