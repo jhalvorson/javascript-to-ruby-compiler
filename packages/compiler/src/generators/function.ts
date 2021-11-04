@@ -11,11 +11,13 @@ import Generator from "./abstract-generator";
  */
 class FunctionGenerator extends Generator<FunctionDeclaration | ClassMethod> {
     indent: string;
+    internalIndent: string;
 
     constructor(node: FunctionDeclaration | ClassMethod, generator: any, indent = 0) {
         super(node, generator);
 
         this.indent = Array.from({length: indent}, () => " ").join("")
+        this.internalIndent = this.indent.length > 0 ? this.indent + this.indent : "  "
     }
 
     public run() {
@@ -29,7 +31,7 @@ class FunctionGenerator extends Generator<FunctionDeclaration | ClassMethod> {
             + method
             // Arguments
             + " | " + params.map(this.generator).join(', ') + " |\n"
-            + this.indent + this.indent
+            + this.internalIndent
             + body.body.map(this.generator).join('\n')
             + "\n"
             + this.indent
@@ -39,7 +41,7 @@ class FunctionGenerator extends Generator<FunctionDeclaration | ClassMethod> {
         return this.indent
             + method
             + "\n"
-            + this.indent + this.indent
+            + this.internalIndent
             + body.body.map(this.generator).join('\n')
             + "\n"
             + this.indent

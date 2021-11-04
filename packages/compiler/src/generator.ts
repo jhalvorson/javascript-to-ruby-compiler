@@ -1,7 +1,7 @@
 import { Node, Comment } from "@babel/types";
 import operators from "./operators";
 import { toSnakeCase } from "./utils/toSnakeCase";
-import { ProgrammeGenerator, ClassGenerator, FunctionGenerator } from './generators';
+import { ProgrammeGenerator, ClassGenerator, FunctionGenerator, AssignmentGenerator } from './generators';
 
 /**
  * This is the file that "generates" the Ruby code from JS. 
@@ -189,6 +189,9 @@ function generator(node: Node): string | number | boolean {
 
       case "BreakStatement":
         return "\n" 
+
+      case "AssignmentPattern":
+        return new AssignmentGenerator(node, generator).run();
 
       default:
         throw new TypeError(node.type + ' not implemented');
